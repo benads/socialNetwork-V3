@@ -23,6 +23,7 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="">Home <span class="sr-only">(current)</span></a>
                     </li>
+                    {% if app.user %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('staff') }}">Staff</a>
                     </li>
@@ -30,6 +31,7 @@
                         <a class="nav-link" href="{{ path('feed') }}">Feed</a>
                     </li>
                     </ul>
+                    {% endif %}
                 </div>
         </nav>
         <div class="container">

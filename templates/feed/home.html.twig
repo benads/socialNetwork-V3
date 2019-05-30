@@ -2,7 +2,16 @@
 
 {% block body %}
 
-<p>{{ title }}</p>
+<p>Inscription</p>
+{{form_start(forma)}}
+{{form_row(forma.email, {'label':'Votre email','attr':{'placeholder':'Entrez votre adresse mail'}})}}
+{{form_row(forma.lastName, {'label':'Votre prenom','attr':{'placeholder':'Entrez votre prenom'}})}}
+{{form_row(forma.userName, {'label':'Votre nom','attr':{'placeholder':'Entrez votre nom'}})}}
+{{form_row(forma.password, {'label':'Votre mot de passe','attr':{'placeholder':'Entrez votre mot de passe'}})}}
+{{form_row(forma.confirm_password, {'label':'Retapez votre mot de passe','attr':{'placeholder':'Retapez votre mot de passe'}})}}
+<button type="submit" class="btn" style="border:1px solid black;">Inscription</button>
+{{form_end(forma)}}
+<a href="{{path('connexion')}}">Se connectez</a>
 {% endblock %}
 
 

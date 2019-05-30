@@ -46,7 +46,7 @@ class PostRepository extends ServiceEntityRepository
 
 
             ->orderBy('p.id', 'DESC')
-            ->setMaxResults(10)
+            ->setMaxResults(30)
             ->getQuery()
             ->getResult()
             ;

@@ -20,10 +20,12 @@
         <div>   
         <div class="metadata"><span><small>Ecrit le {{ post.createdAt | date('d/m/Y') }} à {{ post.createdAt | date('H:i') }}</small></span></div>
         <img src="{{ post.image }}">
-        <p>{{ post.content }}</p>
+       <p>{{post.content}}</p>
         </div>
         </article>
-    {% endfor %}
+     {% endfor %}
+    
+  
 </section>
 
 
