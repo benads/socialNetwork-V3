@@ -1,12 +1,16 @@
 <?php
 
 namespace App\Controller;
+
 use App\Entity\Post;
 use App\Entity\User;
 use App\Entity\Staff;
 use App\Entity\Comment;
 use App\Form\InscriptionType;
+use App\Form\StaffType;
+use \Symfony\Component\HttpFoundation\Response;
 use App\Repository\PostRepository;
+use App\Repository\StaffRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class FeedController extends Controller
+class FeedController extends AbstractController
 {
     /**
      * @Route("/feed", name="feed")
@@ -30,11 +34,6 @@ class FeedController extends Controller
 
         $repos = $this->getDoctrine()->getRepository(Comment::class);
         $comments = $repos->findAll();
-
-    
-
-       
-
 
         //formulaire pour creer le post
         $post = new Post();
@@ -51,6 +50,7 @@ class FeedController extends Controller
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
             {
+               
                 $post->setCreatedAt(new \DateTime());
                 $post->setLikes(0);
                 
@@ -63,7 +63,7 @@ class FeedController extends Controller
         return $this->render('feed/index.html.twig', [
             'controller_name'=>'FeedController',
             'formPost'=>$form->createView(),
-        
+      
             'posts'=>$posts,
             'comments'=>$comments
         ]);
@@ -91,7 +91,7 @@ class FeedController extends Controller
         }
         
         
-        
+
         return $this->render('feed/home.html.twig', [
             'title'=>"Bienvenue sur le feed",
             'forma'=>$forma->createView()
@@ -102,7 +102,8 @@ class FeedController extends Controller
     /**
      * @Route("/staff", name="staff")
      */
-    public function staff() {
+    public function staff() 
+    {
         $repo = $this->getDoctrine()->getRepository(Staff::class);
         $staff = $repo->findAll();
         return $this->render('feed/staff.html.twig', [
@@ -126,33 +127,59 @@ class FeedController extends Controller
      public function logout() {}
 
 
-    /**
-     * @Route("/like", name="like", methods="LIKE")
-     */
+   
 
-     public function like() 
-     {  
-     
-        $repos = $this->getDoctrine()->getRepository(Post::class);
-        $like = $repos->liking();  
-        $manager->persist($like);
-        $manager->flush(); 
-        
-        
-       
 
-        
-            
-     }
+      /**
+       * @Route("/edit", name="edit")
+       */
 
-     /**
-      * @Route("/dislike", name="dislike", methods="DISLIKE")
-      */
+       public function edit(Request $request, ObjectManager $manager)
+       {
 
-      public function dislike () 
-      {
-          
-      }
+         
+       }
+
+
+
+
+       /**
+        * @var StaffRepository
+        */
+
+        private $repository;
+
+       public function __construct(StaffRepository $repository)
+       {
+           $this->repository = $repository;
+       }
+
+
+
+       /**
+        * @Route("/admin", name="admin")
+        */
+
+        public function admin(Request $request, ObjectManager $manager) 
+        {
+            $staff = $this->repository->findAll();
+            $staffe= new Staff();
+            $form = $this->createForm(StaffType::class, $staffe);
+ 
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()) 
+            {
+                $manager->persist($staffe);
+                $manager->flush();
+                return $this->redirectToRoute('staff');
+            }
+
+            return $this->render('feed/admin.html.twig', [
+                'staffs'=>$staff,
+                'staff' => $staffe,
+                'form'=> $form->createView()
+        ]);
+        }
 
  
 }

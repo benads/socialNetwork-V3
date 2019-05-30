@@ -26,20 +26,11 @@
         <div class="metadata"><span><small>Ecrit le {{ post.createdAt | date('d/m/Y') }} à {{ post.createdAt | date('H:i') }}</small></span></div>
 
        <p>{{post.content}}</p>
-       {% if post.likes == 1 %}
-          <form method="post" action="{{path('like')}}">
-        <input type="hidden" name="_method" value="LIKE"/>
-        <button>Like</button>
-      </form>
-       {% else %}
-            <form method="post" action="{{path('dislike')}}">
-        <input type="hidden" name="_method" value="DISLIKE"/>
-        <button>DISLIKE</button>
-      </form>
-       {%  endif %}
+   
           
         {% for comment in post.comments %}
 <div style="border: 1px solid black; width: 700px; margin: auto" >
+       
       <span><small>Ecrit le {{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt | date('H:i') }}</small></span>
        
         <p>{{comment.content}} </p>

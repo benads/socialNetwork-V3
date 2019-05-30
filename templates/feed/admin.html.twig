@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div style="display:flex; flex-wrap:wrap;width: 100vw;justify-content:space-around;">
+<section>
+<h1> Editer le bien </h1>
+
+{% for staff in staffs %}
+
+<div>
+<p>{{staff.name}}</p>
+</div>
+
+
+{%  endfor %}
+</section>
+
+
+<section>
+{% if app.user %}
+
+<h1>Editez un membre du staff</h1>
+{{form_start(form)}}
+{{ form_row(form.name)}}
+{{ form_row(form.lastName)}}
+{{ form_row(form.profession)}}
+{{ form_row(form.email)}}
+
+<button type="submit" class="btn" style="border: 1px solid black">Editez le membre au staff</button>
+{{form_end(form)}}
+</section>
+<div>
+{% endif %}
+
+{% endblock %}
