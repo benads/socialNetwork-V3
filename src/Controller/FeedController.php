@@ -28,6 +28,9 @@ class FeedController extends Controller
         $repo = $this->getDoctrine()->getRepository(Post::class);
         $posts = $repo->classByDate();
 
+        $repos = $this->getDoctrine()->getRepository(Comment::class);
+        $comments = $repos->findAll();
+
        
 
 
@@ -60,7 +63,8 @@ class FeedController extends Controller
         return $this->render('feed/index.html.twig', [
             'controller_name'=>'FeedController',
             'formPost'=>$form->createView(),
-            'posts'=>$posts
+            'posts'=>$posts,
+            'comments'=>$comments
             
             
         ]);

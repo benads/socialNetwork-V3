@@ -40,6 +40,16 @@ class Post
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $author;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $likes;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -113,6 +123,30 @@ class Post
                 $comment->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(string $author): self
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    public function getLikes(): ?int
+    {
+        return $this->likes;
+    }
+
+    public function setLikes(?int $likes): self
+    {
+        $this->likes = $likes;
 
         return $this;
     }

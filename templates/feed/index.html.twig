@@ -3,6 +3,7 @@
 
 
 {% block body %}
+ {% if  app.user %}
 {{ form_start(formPost) }}
  {{ form_errors(formPost.content) }}
 {{ form_row(formPost.content) }}
@@ -15,15 +16,39 @@
 
 
 <section class="articles">
-    {% for post in posts %}
+   
+   
         <article>
         <div>   
+        {% for post in posts %}
         <div class="metadata"><span><small>Ecrit le {{ post.createdAt | date('d/m/Y') }} à {{ post.createdAt | date('H:i') }}</small></span></div>
         <img src="{{ post.image }}">
        <p>{{post.content}}</p>
+       <p>{{post.likes}}</p><a>Likez</a>
+          
+        {% for comment in post.comments %}
+<div style="border: 1px solid black; width: 700px; margin: auto" >
+      <span><small>Ecrit le {{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt | date('H:i') }}</small></span>
+        <p>{{comment.author}}</p>
+        <p>{{comment.content}} </p>
         </div>
+        {% endfor %}
+ 
+       {% endfor %}
+
+       {% else %}
+       <a href="{{path('connexion')}}"> Vous connectez</a>
+       <a href="{{path('connexion')}}"> Vous inscrire</a>
+     {% endif %}   
+
+     
         </article>
-     {% endfor %}
+
+
+
+
+
+     
     
   
 </section>
