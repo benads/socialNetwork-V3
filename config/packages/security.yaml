@@ -20,6 +20,7 @@ security:
             form_login: 
                 login_path: connexion
                 check_path: connexion
+              
 
             logout: 
                 path: logout

@@ -88,7 +88,7 @@ class FeedController extends Controller
             $manager->persist($user);
             $manager->flush();
 
-            return $this->redirectToRoute('feed');
+            return $this->redirectToRoute('connexion');
         }
 
         
