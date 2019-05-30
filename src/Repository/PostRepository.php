@@ -53,6 +53,25 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /*
+
+    public function likeOrNot()
+    {
+        return $this
+        ->createQueryBuilder('f')
+        ->update($this->getEntityName(), 'f')
+        ->set('f.likes', $likes->getLikes() + 1)
+        
+        ->getQuery()
+        ->execute();
+    }
+    */
+
+
+
+  
+
+
+    /*
     public function findOneBySomeField($value): ?Post
     {
         return $this->createQueryBuilder('p')

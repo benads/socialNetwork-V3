@@ -30,25 +30,21 @@ class Post
      */
     private $createdAt;
 
-    /**
-     * @ORM\Column(type="string", length=400, nullable=true)
-     */
-    private $image;
+   
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="article", orphanRemoval=true)
      */
     private $comments;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $author;
+   
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="boolean")
      */
     private $likes;
+
+    
 
     public function __construct()
     {
@@ -84,17 +80,7 @@ class Post
         return $this;
     }
 
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
+  
 
     /**
      * @return Collection|Comment[]
@@ -127,27 +113,20 @@ class Post
         return $this;
     }
 
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
 
-    public function setAuthor(string $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    public function getLikes(): ?int
+    public function getLikes(): ?bool
     {
         return $this->likes;
     }
 
-    public function setLikes(?int $likes): self
+    public function setLikes(bool $likes): self
     {
         $this->likes = $likes;
 
         return $this;
     }
+
+    
+
+ 
 }

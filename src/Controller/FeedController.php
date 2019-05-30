@@ -31,6 +31,8 @@ class FeedController extends Controller
         $repos = $this->getDoctrine()->getRepository(Comment::class);
         $comments = $repos->findAll();
 
+    
+
        
 
 
@@ -41,9 +43,8 @@ class FeedController extends Controller
                         'label'=>'Saisissez votre commentaires',
                         'attr'=>[
                             'class'=>"form-control",
-                            'placeholder'=>"Saisissez votre commentaire ...",
-                            
-                        ]
+                            'placeholder'=>"Saisissez votre commentaire ...",   
+                        ]  
                     ])
                     ->getForm();
 
@@ -51,28 +52,22 @@ class FeedController extends Controller
         if($form->isSubmitted() && $form->isValid())
             {
                 $post->setCreatedAt(new \DateTime());
+                $post->setLikes(0);
+                
                 $manager->persist($post);
                 $manager->flush();
 
                 return $this->redirectToRoute('feed');
             }
 
-           
-        
-        
         return $this->render('feed/index.html.twig', [
             'controller_name'=>'FeedController',
             'formPost'=>$form->createView(),
+        
             'posts'=>$posts,
             'comments'=>$comments
-            
-            
         ]);
     }
-
-    
-
-    
 
     /**
      * @Route("/", name="home")
@@ -94,7 +89,8 @@ class FeedController extends Controller
 
             return $this->redirectToRoute('connexion');
         }
-
+        
+        
         
         return $this->render('feed/home.html.twig', [
             'title'=>"Bienvenue sur le feed",
@@ -128,4 +124,35 @@ class FeedController extends Controller
      */
 
      public function logout() {}
+
+
+    /**
+     * @Route("/like", name="like", methods="LIKE")
+     */
+
+     public function like() 
+     {  
+     
+        $repos = $this->getDoctrine()->getRepository(Post::class);
+        $like = $repos->liking();  
+        $manager->persist($like);
+        $manager->flush(); 
+        
+        
+       
+
+        
+            
+     }
+
+     /**
+      * @Route("/dislike", name="dislike", methods="DISLIKE")
+      */
+
+      public function dislike () 
+      {
+          
+      }
+
+ 
 }
