@@ -3,12 +3,15 @@
 {% block body %}
 <div style="display:flex; flex-wrap:wrap;width: 100vw;justify-content:space-around;">
 <section>
-<h1> Editer le bien </h1>
-
+<h1> Editer le personnel </h1>
+<a href="{{path('staff-new')}}">Creer</a>
 {% for staff in staffs %}
 
 <div>
+<a href="{{path('admin-edit', {id: staff.id})}}">Mettre a jour</a>
 <p>{{staff.name}}</p>
+
+
 </div>
 
 
@@ -16,20 +19,7 @@
 </section>
 
 
-<section>
-{% if app.user %}
 
-<h1>Editez un membre du staff</h1>
-{{form_start(form)}}
-{{ form_row(form.name)}}
-{{ form_row(form.lastName)}}
-{{ form_row(form.profession)}}
-{{ form_row(form.email)}}
 
-<button type="submit" class="btn" style="border: 1px solid black">Editez le membre au staff</button>
-{{form_end(form)}}
-</section>
-<div>
-{% endif %}
 
 {% endblock %}

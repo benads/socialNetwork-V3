@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+
 use App\Entity\User;
 use App\Entity\Staff;
 use App\Entity\Comment;
@@ -163,23 +164,68 @@ class FeedController extends AbstractController
         public function admin(Request $request, ObjectManager $manager) 
         {
             $staff = $this->repository->findAll();
-            $staffe= new Staff();
-            $form = $this->createForm(StaffType::class, $staffe);
+            return $this->render('feed/admin.html.twig', [
+                compact('staff'),
+                'staffs' => $staff       
+        ]);
+        }
+
+
+
+       /**
+        * @Route("/admin/{id}", name="admin-edit")
+        * @param Staff $staff
+        * @return \Symfony\Component\HttpFoundation\Response   
+        */
+
+        public function adminEdit(Request $request, ObjectManager $manager, Staff $staff) 
+        {
+           
+            $form = $this->createForm(StaffType::class, $staff);
  
             $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()) 
             {
-                $manager->persist($staffe);
+                $manager->persist($staff);
                 $manager->flush();
                 return $this->redirectToRoute('staff');
             }
 
-            return $this->render('feed/admin.html.twig', [
-                'staffs'=>$staff,
-                'staff' => $staffe,
-                'form'=> $form->createView()
-        ]);
+            return $this->render('feed/adminEdit.html.twig', [
+                 compact('staff'),
+                'form'=> $form->createView(),
+                'staffs'=>$staff
+                
+                
+                
+            ]);
         }
+
+        /**
+         * @Route("admin/create/new", name="staff-new")
+         */
+
+         public function newStaff(Request $request, ObjectManager $manager) 
+         {
+             $staff= new Staff();
+             $form = $this->createForm(StaffType::class, $staff);
+ 
+             $form->handleRequest($request);
+             if($form->isSubmitted() && $form->isValid()) 
+             {
+                 $manager->persist($staff);
+                 $manager->flush();
+                 return $this->redirectToRoute('staff');
+             }
+             return $this->render('feed/create.html.twig', [
+                compact('staff'),
+               'form'=> $form->createView(),
+               'staffs'=>$staff
+               
+               
+               
+           ]);
+         }
 
  
 }
