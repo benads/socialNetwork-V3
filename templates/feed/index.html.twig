@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+{{ form_start(formPost) }}
+ {{ form_errors(formPost.content) }}
+{{ form_row(formPost.content) }}
+
+       
+
+<button type="submit" class="btn btn-success">Ajouter l'article</button>
+{{ form_end(formPost) }}
+
+
+
+<section class="articles">
+    {% for post in posts %}
+        <article>
+        <div>   
+        <div class="metadata"><span><small>Ecrit le {{ post.createdAt | date('d/m/Y') }} à {{ post.createdAt | date('H:i') }}</small></span></div>
+        <img src="{{ post.image }}">
+        <p>{{ post.content }}</p>
+        </div>
+        </article>
+    {% endfor %}
+</section>
+
+
+
+
+{% endblock %}

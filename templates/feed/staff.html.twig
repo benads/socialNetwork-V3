@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+
+<h1>Bonjour</h1>
+
+
+  <div style="display: flex;flex-wrap: wrap;justify-content: space-between;">
+    {% for staf in staff %}
+  
+        <div class="card" style="width: 18rem;margin: 15px;">
+            <img src="http://via.placeholder.com/240x160">
+            <div class="card-body">
+                <h5 class="card-title">{{ staf.name }}</h5>
+                <p class="card-text">{{ staf.lastName }}</p>
+                <p class="card-text">{{ staf.profession }}</p>
+                <p>{{staf.Email}}
+                </div>
+            </div>
+   
+    {% endfor %}
+     </div>
+
+
+
+
+
+
+{% endblock %}
