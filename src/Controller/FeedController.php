@@ -7,14 +7,15 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Entity\Staff;
 use App\Entity\Comment;
-use App\Form\InscriptionType;
 use App\Form\StaffType;
-use \Symfony\Component\HttpFoundation\Response;
+use App\Form\InscriptionType;
 use App\Repository\PostRepository;
 use App\Repository\StaffRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use \Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -27,8 +28,9 @@ class FeedController extends AbstractController
     /**
      * @Route("/feed", name="feed")
      */
-    public function index(PostRepository $repo, Request $request, ObjectManager $manager)
+    public function index(PostRepository $repo, Request $request, ObjectManager $manager, UserInterface $user)
     {
+        $userId = $user->getUsername();
         // recuperer les articles
         $repo = $this->getDoctrine()->getRepository(Post::class);
         $posts = $repo->classByDate();
@@ -40,10 +42,10 @@ class FeedController extends AbstractController
         $post = new Post();
         $form =$this->createFormBuilder($post)
                     ->add('content', TextareaType::class, [
-                        'label'=>'Saisissez votre commentaires',
+                        'label'=>'Saisissez votre article',
                         'attr'=>[
                             'class'=>"form-control",
-                            'placeholder'=>"Saisissez votre commentaire ...",   
+                            'placeholder'=>"Saisissez votre article ...",   
                         ]  
                     ])
                     ->getForm();
@@ -64,7 +66,7 @@ class FeedController extends AbstractController
         return $this->render('feed/index.html.twig', [
             'controller_name'=>'FeedController',
             'formPost'=>$form->createView(),
-      
+            'user'=>$userId,
             'posts'=>$posts,
             'comments'=>$comments
         ]);
@@ -96,6 +98,7 @@ class FeedController extends AbstractController
         return $this->render('feed/home.html.twig', [
             'title'=>"Bienvenue sur le feed",
             'forma'=>$forma->createView()
+          
         ]);
     }
 
@@ -127,32 +130,19 @@ class FeedController extends AbstractController
 
      public function logout() {}
 
-
-   
-
-
-      /**
-       * @Route("/edit", name="edit")
-       */
-
-       public function edit(Request $request, ObjectManager $manager)
-       {
-
-         
-       }
-
-
-
-
        /**
         * @var StaffRepository
+        * @var ObjectManager
         */
 
         private $repository;
 
-       public function __construct(StaffRepository $repository)
+        private $manager;
+
+       public function __construct(StaffRepository $repository, ObjectManager $manager)
        {
            $this->repository = $repository;
+           $this->em = $manager;
        }
 
 
@@ -169,8 +159,6 @@ class FeedController extends AbstractController
                 'staffs' => $staff       
         ]);
         }
-
-
 
        /**
         * @Route("/admin/{id}", name="admin-edit")
@@ -220,12 +208,31 @@ class FeedController extends AbstractController
              return $this->render('feed/create.html.twig', [
                 compact('staff'),
                'form'=> $form->createView(),
-               'staffs'=>$staff
-               
-               
-               
+               'staffs'=>$staff     
            ]);
          }
+
+
+       /**
+        * @Route("/admin", name="delete_staff", methods="DELETE")
+        * @param Staff $staff  
+        */
+
+          public function deleteStaff(Staff $staff, Request $request)
+          {
+            
+          
+                 
+                 $manager->remove($staff);
+                 $manager->persist($staff);
+                 $manager->flush();
+                
+              
+             
+             return $this->redirectToRoute('feed/admin.html.twig');
+          }  
+
+        
 
  
 }

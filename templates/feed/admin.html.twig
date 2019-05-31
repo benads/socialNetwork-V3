@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+{% if app.user %}
 <div style="display:flex; flex-wrap:wrap;width: 100vw;justify-content:space-around;">
 <section>
 <h1> Editer le personnel </h1>
@@ -10,16 +11,21 @@
 <div>
 <a href="{{path('admin-edit', {id: staff.id})}}">Mettre a jour</a>
 <p>{{staff.name}}</p>
-
+<form method="post" action="{{ path('delete_staff')}}">
+<input type="hidden" name="_method" value="DELETE">
+<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ staff.id)}}">
+<a class="btn btn-danger">Supprimer</a>
+</form>
 
 </div>
 
 
 {%  endfor %}
+
 </section>
 
 
 
 
-
+{% endif %}
 {% endblock %}

@@ -1,61 +1,32 @@
 {% extends 'base.html.twig' %}
-
-
-
 {% block body %}
  {% if  app.user %}
+ <p>Bonjour, {{user}}, quoi de neuf aujourd'hui ?</p>
 {{ form_start(formPost) }}
  {{ form_errors(formPost.content) }}
 {{ form_row(formPost.content) }}
-
-
-
-       
-
 <button type="submit" class="btn btn-success">Ajouter l'article</button>
 {{ form_end(formPost) }}
-
-
-
 <section class="articles">
-   
-   
-        <article>
+   <article>
         <div>   
         {% for post in posts %}
         <div class="metadata"><span><small>Ecrit le {{ post.createdAt | date('d/m/Y') }} à {{ post.createdAt | date('H:i') }}</small></span></div>
-
        <p>{{post.content}}</p>
-   
-          
+       <p><small>ecrit par {{user}}</small></p>
         {% for comment in post.comments %}
-<div style="border: 1px solid black; width: 700px; margin: auto" >
-       
+                <div style="border: 1px solid black; width: 700px; margin: auto" >
+                
       <span><small>Ecrit le {{ comment.createdAt | date('d/m/Y') }} à {{ comment.createdAt | date('H:i') }}</small></span>
-       
         <p>{{comment.content}} </p>
         </div>
         {% endfor %}
- 
-
-
        {% endfor %}
-
        {% else %}
        <a href="{{path('connexion')}}"> Vous connectez</a>
        <a href="{{path('home')}}"> Vous inscrire</a>
-     {% endif %}   
- 
-     
-        </article>
-
-
-
-
-
-     
-    
-  
+     {% endif %}        
+        </article>  
 </section>
 
 

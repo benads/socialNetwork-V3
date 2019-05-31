@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-
+ {% if  app.user %}
 <section>
 
-{% if app.user %}
+
 
 <h1>Editez un membre du staff</h1>
 {{ form_start(form) }}
@@ -13,7 +13,9 @@
 {{ form_row(form.email) }}
 
 <button type="submit" class="btn" style="border: 1px solid black">Editez le membre au staff</button>
+
 {{ form_end(form) }}
 </section>
 {% endif %}
+
 {% endblock %}

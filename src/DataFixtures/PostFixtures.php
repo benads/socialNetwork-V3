@@ -21,9 +21,9 @@ class PostFixtures extends Fixture
             $post = new Post();
             
             $post->setContent($faker->paragraph);
-            $post->setImage($faker->imageUrl($width = 240, $height = 180));
+            $post->setLikes(0);
             $post->setCreatedAt(new \DateTime());
-            $post->setAuthor($faker->name);
+            
             
             $manager->persist($post);
      
@@ -35,7 +35,8 @@ class PostFixtures extends Fixture
             $days = $intervalDate->days;
             $minimum = '-' . $days . ' days';
 
-            $comment->setAuthor($faker->name);
+
+        
 
             $comment->setContent($faker->paragraph);
             $comment->setCreatedAt($faker->dateTimeBetween($minimum));
