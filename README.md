@@ -3,6 +3,11 @@
 ## Commande pour lancer le repo socialNetwork-v2
 
 
+
+###Installer composer
+Running ```composer install```
+
+
 ### Créer la base de donnée
 Running ``` php bin/console doctrine:database:create ```
 
